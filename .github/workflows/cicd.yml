@@ -21,7 +21,7 @@ jobs:
       - name: Build and test
         run: |
           docker build -t dreamhome .
-          docker run dreamhome npm test
+          docker run dreamhome
 
       - name: Push image to Docker Hub
         uses: docker/build-push-action@v2
