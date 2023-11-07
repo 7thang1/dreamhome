@@ -30,6 +30,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/dreamhome:${{ github.sha }}
 
+  deploy:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+
+    steps:
       - name: SSH into server and deploy
         uses: appleboy/ssh-action@master
         with:
