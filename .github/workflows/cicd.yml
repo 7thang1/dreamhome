@@ -1,0 +1,44 @@
+name: Dreamhome deploy
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app
+        run: npm run build
+
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin ${{ secrets.DOCKER_USERNAME }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t dreamhome .
+          docker tag dreamhome ${{ secrets.DOCKER_USERNAME }}/dreamhome:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/dreamhome:latest
+
+      - name: SSH into server and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop dreamhome || true
+            docker rm dreamhome || true
+            docker pull ${{ secrets.DOCKER_USERNAME }}/dreamhome:latest
+            docker run -d -p 3000:3000 --name dreamhome ${{ secrets.DOCKER_USERNAME }}/dreamhome:latest
