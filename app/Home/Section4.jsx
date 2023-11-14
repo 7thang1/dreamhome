@@ -103,7 +103,7 @@ function Section4() {
                 <p className='text-[#FFF] text-base font-semibold '>TP.Hồ Chí Minh</p>
                 <p className='text-[#FCFCFC] text-sm font-semibold '>7.953  bài đăng</p>
                 </div>
-                <img src='HCM.jpg' alt='TPHCM' className='max-w-[413px] w-full rounded-2xl relative '></img>
+                <img src='hcm.jpg' alt='TPHCM' className='max-w-[413px] w-full rounded-2xl relative '></img>
             </a>
             <div className='flex flex-col gap-[20px] max-h-[542px] max-w-[491px]'>
             <a href='#' className='flex max-w-[491px] max-h-[287px]'>

@@ -43,7 +43,7 @@ function Section2() {
         </select>
       </div>
       <button className='bg-[#806056] w-[50px] h-[50px] p-[12px] rounded-[8px] ml-[28px]'>
-        <img src='/search.svg' alt='search' width={25} height={25}></img>
+        <img src='/search.svg' alt='search' className='w-[25px] h-[25px] hover:scale-110 ease-in-out duration-500'></img>
       </button>
     </div>
   </section>

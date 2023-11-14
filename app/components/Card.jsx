@@ -1,11 +1,19 @@
 import React, {useState} from 'react';
+import Link  from 'next/link';
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 
+function Card(props) {
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
-export default function Card(props) {
-
+    const handleBookmarkClick = () => {
+      setIsBookmarked(!isBookmarked);
+    };
     return (
-        <div className='max-w-[300px] shadow-md items-center justify-center' key={props.id}>
+        <div className='max-w-[300px] shadow-md items-center  flex flex-col' key={props.id}>
         <img className='w-[300px] h-[203px] rounded-[6px]' src={props.image} alt='HouseImage'></img>
+        <button
+        className='w-[30px] h-[30px] absolute rounded-md cursor-pointer flex justify-center items-center bg-[#8c8c8c] opacity-50  self-end mr-[10px] mt-[10px] ' onClick={handleBookmarkClick}>
+        {isBookmarked ? <AiFillHeart color='white' size={20} /> : <AiOutlineHeart color='white' size={20} />}</button>
         <div className='max-w-[300px]  flex flex-col justify-center items-center px-[15px] py-[15px]  '>
             <span className='overflow-hidden text-ellipsis text-[14px] font-medium leading-[21px] text-[#282E3C]'>{props.name}</span>
             <div className='flex flex-row justify-between  mb-[12px] mt-[5px]  '>
@@ -23,9 +31,14 @@ export default function Card(props) {
                 <span className='text-[13px] text-[#282E3C] font-normal leading-[19.5px]'>{props.bathroom}</span>
                 
             </div>
-        <button className='w-[270px] py-2 px-[15px] gap-[10px] rounded-[5px] bg-[#806056] text-white text-[14px] font-medium leading-[21px]'>Xem chi tiết</button>
+            <Link href={`/detailed?name=${props.name}&image=${props.image}&price=${props.price}&location=${props.location}`}> 
+            <button className='w-[270px] py-2 px-[15px] gap-[10px] rounded-[5px] bg-[#806056] text-white text-[14px] font-medium leading-[21px] hover:scale-110 ease-in-out duration-500 active:bg-[#5a4038]'>
+                Xem chi tiết
+            </button>
+        </Link>
         </div>
         </div>
 
 )
 }
+export default Card;
