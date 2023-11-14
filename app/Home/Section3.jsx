@@ -3,9 +3,8 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import styled, {css} from 'styled-components';
 import ProductData from '../content';
 import Card from '../components/Card';
-
 const PaginationButton = styled.button`
-  background-color: #f6f8fa;
+  background-color: #fff;
   border: none;
   border-radius: 50%;
   height: 40px;
@@ -14,18 +13,15 @@ const PaginationButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  cursor: pointer;  
+  cursor: pointer;
+
   ${(props) =>
-    props.active &&
-    css`
-      background-color: #ECE7E6;
-      color: #806056;
-    `}
-  ${(props) =>
-    props.fade &&
-    css`
-      opacity: 0.5;
-    `}`;
+  props.active &&
+  css`
+    background-color: #ECE7E6;
+    color: #806056;
+  `}
+ `;
 function Section3() {
     
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,15 +62,16 @@ function Section3() {
             {<GrFormPrevious className='w-[20px] h-[20px]' />}
         </PaginationButton>
       {pageNumbers.map(number => (
-        <PaginationButton 
+        <PaginationButton  
         key={number}
-        onClick={() => setCurrentPage(number)}
-        active={currentPage === number}
-        fade={totalPages === 1 && number !== 1}>
+        onClick={() => setCurrentPage(number)} 
+        className={` ${currentPage === number ? 'active' : ''}`}
+        >
           {number}
         </PaginationButton>
       ))}
        <PaginationButton
+       
            onClick={() => setCurrentPage(currentPage + 1)}
            disabled={currentPage === totalPages}
           >

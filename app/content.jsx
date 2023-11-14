@@ -8,6 +8,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:2,
@@ -18,6 +19,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:3,
@@ -28,6 +30,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:4,
@@ -38,6 +41,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:5,
@@ -48,6 +52,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:6,
@@ -58,6 +63,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:7,
@@ -68,6 +74,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:8,
@@ -78,6 +85,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:9,
@@ -88,6 +96,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:10,
@@ -98,6 +107,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:11,
@@ -108,6 +118,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
     {
         id:12,
@@ -118,6 +129,7 @@ const ProductData = [
         superficiality: '120' ,
         bedroom: '3 phòng',
         bathroom: '2 phòng',
+        status: 'selling',
     },
 ];
 
