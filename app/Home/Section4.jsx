@@ -103,7 +103,7 @@ function Section4() {
                 <p className='text-[#FFF] text-base font-semibold '>TP.Hồ Chí Minh</p>
                 <p className='text-[#FCFCFC] text-sm font-semibold '>7.953  bài đăng</p>
                 </div>
-                <img src='HCM.jpg' alt='TPHCM' className='max-w-[413px] w-full rounded-2xl relative '></img>
+                <img src='https://cdn.thedreamhome.click/HCM.jpg' alt='TPHCM' className='max-w-[413px] w-full rounded-2xl relative '></img>
             </a>
             <div className='flex flex-col gap-[20px] max-h-[542px] max-w-[491px]'>
             <a href='#' className='flex max-w-[491px] max-h-[287px]'>
@@ -111,7 +111,7 @@ function Section4() {
                 <p className='text-[#FFF] text-base font-semibold '>Hà Nội</p>
                 <p className='text-[#FCFCFC] text-sm font-semibold '>6.775  bài đăng</p>
                 </div>
-                <img src='HN.jpg' alt='hanoi' className=' w-full h-full rounded-2xl relative '></img>
+                <img src='https://cdn.thedreamhome.click/HN.jpg' alt='hanoi' className=' w-full h-full rounded-2xl relative '></img>
             </a>
             <div className='flex flex-row gap-[22px] h-[235px]'>
             <a href='#' className='flex max-w-[235px] max-h-[235px]'>
@@ -119,14 +119,14 @@ function Section4() {
                 <p className='text-[#FFF] text-base font-semibold '>Bình Dương</p>
                 <p className='text-[#FCFCFC] text-sm font-semibold '>5.066  bài đăng</p>
                 </div>
-                <img src='BD.jpg' alt='binhduong' className=' w-full h-full rounded-2xl relative '></img>
+                <img src='https://cdn.thedreamhome.click/BD.jpg' alt='binhduong' className=' w-full h-full rounded-2xl relative '></img>
             </a>
             <a href='#' className='flex max-w-[235px] max-h-[235px]'>
                 <div className='flex absolute mt-5 ml-5 z-[1] flex-col gap-y-[5px]' >
                 <p className='text-[#FFF] text-base font-semibold '>Đà Nẵng</p>
                 <p className='text-[#FCFCFC] text-sm font-semibold '>4.551  bài đăng</p>
                 </div>
-                <img src='dn.jpg' alt='danang' className=' w-full h-full rounded-2xl relative '></img>
+                <img src='https://cdn.thedreamhome.click/dn.jpg' alt='danang' className=' w-full h-full rounded-2xl relative '></img>
             </a>
 
             </div>
