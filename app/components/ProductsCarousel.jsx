@@ -1,48 +1,59 @@
-import React, { useState } from 'react';
-import Card from './Card';
+import React, { useState, useRef } from 'react';
+import Card from './ProductCard';
 import ProductData from '../content';
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
 
-const ProductsPerPage = 4;
+
 
 const ProductCarousel = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalProducts = ProductData.length;
-  const totalPages = Math.ceil(totalProducts / ProductsPerPage);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  const swiperRef = useRef(null);
 
   return (
-    <div style={{ position: 'relative' }}>
-      {Array.from({ length: totalPages }).map((_, index) => (
-        <div key={index} style={{ display: index + 1 === currentPage ? 'block' : 'none' }}>
-          <div className='flex flex-row gap-[27px]'>
-            {ProductData.slice(index * ProductsPerPage, (index + 1) * ProductsPerPage).map((card) => (
-              <Card
-                key={card.id}
-                image={card.image}
-                name={card.name}
-                location={card.location}
-                price={card.price}
-                superficiality={card.superficiality}
-                bedroom={card.bedroom}
-                bathroom={card.bathroom}
-              />
-            ))}
-          </div>
+    <div className=''>
+      <p className='text-[#000] text-xl font-semibold mb-[30px] '>Bất động sản dành cho bạn</p>
+      <div className='relative w-auto h-auto'>
+
+      <Swiper
+        spaceBetween={10}
+        slidesPerView={4}
+        navigation={true}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+
+      >
+        {ProductData.map((product) => (
+          <SwiperSlide key={product.id}>
+            <Card
+              image={product.image}
+              name={product.name}
+              location={product.location}
+              price={product.price}
+              superficiality={product.superficiality}
+              bedroom={product.bedroom}
+              bathroom={product.bathroom}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <div className="z-10 w-[30px] h-[30px] absolute top-1/2 left-0 transform -translate-y-1/2  rounded-full">
+  <button
+    onClick={() => swiperRef.current.slidePrev()}
+    className="bg-black  text-white  rounded-full w-[30px] h-[30px] flex justify-center items-center"
+  >
+    <IoIosArrowBack className='w-[20px] h-[20px]' />
+  </button>
+</div>
+
+<div className="z-10 w-[30px] h-[30px] absolute top-1/2 right-0 transform -translate-y-1/2  rounded-full">
+  <button
+    onClick={() => swiperRef.current.slideNext()}
+    className="bg-black text-white  rounded-full w-[30px] h-[30px] flex justify-center items-center"
+  >
+    <IoIosArrowForward className='w-[20px] h-[20px]' />
+  </button>
+</div>
         </div>
-      ))}
-      <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: 0 }}>
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-          &lt; {/* Left arrow */}
-        </button>
-      </div>
-      <div style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)', right: 0 }}>
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-          &gt; {/* Right arrow */}
-        </button>
-      </div>
     </div>
   );
 };

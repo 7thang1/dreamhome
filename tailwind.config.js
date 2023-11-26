@@ -9,6 +9,7 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+
       color: {
         primary: "#806056",
       },
@@ -19,6 +20,9 @@ module.exports = withMT({
         hn: "url('/hn.jpg')",
         bd: "url('/bd.jpg')",
       },
+      backgroundImage: theme => ({
+        'gradient-green': 'linear-gradient(90deg, rgba(217, 244, 218, 0.48) -0.58%, rgba(192, 231, 194, 0.32) 102.06%)',
+      })
     },
   },
   plugins: [],

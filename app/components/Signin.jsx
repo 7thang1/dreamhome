@@ -9,24 +9,51 @@ import {
     Input,
     Checkbox,
   } from "@material-tailwind/react";
+  import { IoIosClose } from "react-icons/io";
+import {login} from './API';
+import Cookies from 'js-cookie';
 function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const handleLogin = () => {
-    if (email === 'test' && password === '1') {
-      setIsLoggedIn(true);
-      setIsSigninDialogOpen(false);
-    } else {
-      alert('Login Failed: The username or password is incorrect.');
-    }
-  }
+  
+
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
   };
+  const handleClose = () => {
+    setIsSigninDialogOpen(false);
+  };
+  
+  const handleLogin = async () => {
+    if (email === '' || password === '') {
+      alert('Vui lòng điền đầy đủ thông tin');
+    } 
+  
+    if (email !== '' && password !== '') {
+    try {
+      const data = await login(email, password);
+      if (data.message === 'Login success'){
+        Cookies.set('accessToken',data.elements.token,)
+        setIsLoggedIn(true);
+        setIsSigninDialogOpen(false);
+      }
+     
+    }
+    catch (err) {
+      if (err.response.data.message === 'User not found' || err.response.data.message === 'Wrong password'){
+        alert('Email hoặc mật khẩu không đúng');
+      }
+      else {
+        alert('Đã có lỗi xảy ra');
+      }
+    }
+  }
+  };
   return (
-    <Card className='flex flex-col w-[497px] h-[512px] items-center bg-white rounded-2xl px-[58px]'>
-        <div className="font-semibold text-lg  flex flex-col justify-self-center w-fit mt-[45px] ">
+    <Card className='relative flex flex-col w-[497px] h-[512px] items-center  bg-white rounded-2xl '>
+        <button onClick={handleClose} className='w-[20px] h-[20px] mt-[19px] mr-[19px]  items-center flex justify-center self-end  absolute '><IoIosClose size={20} /></button>
+        <div className="font-semibold text-lg  flex flex-col  w-fit mt-[45px] ">
           <img src="/logo1.png" alt="DreamHome" className='w-[54px] h-[25px]' />
           <span className='capitalize text-transparent bg-gradient-to-t from-[#7A5F61] to-[#C28653] bg-clip-text'>Dream Home</span>
         </div>
@@ -35,7 +62,8 @@ function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
             <Typography className='self-stretch text-sm font-normal text-[#111]'>
                 Email
             </Typography>
-            <Input 
+            <Input
+            
             type='email' 
             label='Nhập email của bạn'
             value={email}
@@ -79,4 +107,4 @@ function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
   )
 }
 
-export default Signin
+export default Signin 
