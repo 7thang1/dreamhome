@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React from 'react';
+import Link from 'next/link';
 function Section4() {
   return (
     <div className='relative max-w-[1280px]'>
@@ -183,10 +183,12 @@ function Section4() {
             <p className='text-[#383838] text-[13px] font-normal leading-[19.5px] italic mt-[15px]'>Tổng số lượng bài đăng bất động sản tính thời điểm hiện tại (đơn vị: bài đăng)</p>
         </div>
         <div className='flex flex-row gap-[6.5px] items-center justify-center self-center mt-[10px]'>
+            <Link href={``}>
             <a className='text-[#9FAA85] text-sm font-semibold underline p-[6px]'>Xem thêm nhiều địa điểm khác
             
             </a>
             <button className='w-[30px] h-[30px] flex items-center justify-center rounded-full border-[1px] border-solid border-[#9FAA85] '><img className='w-[14px] h-[12px]' src='/arrow.svg' alt='arrow'></img></button>
+            </Link>
 
         </div>
         </div>

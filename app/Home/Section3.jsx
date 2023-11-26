@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import styled, {css} from 'styled-components';
 import ProductData from '../content';
-import Card from '../components/Card';
+import Card from '../components/ProductCard';
 const PaginationButton = styled.button`
   background-color: #fff;
   border: none;

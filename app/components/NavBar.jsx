@@ -5,12 +5,12 @@ import Signin from './Signin';
 import Signup from './Signup';
 import {Dialog,} from "@material-tailwind/react";
 const menuItems = [
-    "Bán",
-    "Thuê",
-    "Tin tức",
-    "Dự án",
-    "On Sale",
-]
+  { label: "Bán", href: "/selling" },
+  { label: "Thuê", href: "/rental" },
+  { label: "Tin tức", href: "#" },
+  { label: "Dự án", href: "#" },
+  { label: "On Sale", href: "#" },
+];
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,9 +55,9 @@ function NavBar() {
                 <span className='capitalize text-transparent bg-gradient-to-t from-[#7A5F61] to-[#C28653] bg-clip-text'>Dream Home</span>
             </Link> 
                 <ul className=" max-w-[388px] flex items-center justify-center gap-[25px] bg-black w-[388px] rounded-[100px] h-[44px] shrink-0" >
-                    {menuItems.map((link) => (
-                        <li key={link} className='text-white font-medium text-[14px]  hover:text-red-500 ease-in-out duration-500 '>
-                            <Link href={"#"}>{link}</Link>
+                    {menuItems.map((menuItems) => (
+                        <li key={menuItems.label} className='text-white font-medium text-[14px]  hover:text-red-500 ease-in-out duration-500 '>
+                            <Link href={menuItems.href}>{menuItems.label}</Link>
                         </li>
                     ))}
                      <li className='rounded-full w-[31px] h-[31px] justify-center bg-[#535353] p-[6px] cursor-pointer'>
@@ -92,13 +92,15 @@ function NavBar() {
     Quan tâm
     <img src='/bookmark.png' alt='bookmark' ></img>
   </button>
-  <button className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-white ml-[20px] bg-[#806056] hover:scale-110 ease-in-out duration-500">
+  <Link href='/post'>
+  <button  className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-white ml-[20px] bg-[#806056] hover:scale-110 ease-in-out duration-500">
     Đăng tin
     <img src='/post.svg' alt='post'></img>
   </button> 
+  </Link>
   </> ) : (
     <>
-  <button onClick={() => openForm('signin')} className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-[#806056] ml-[39px] hover:scale-110 ease-in-out duration-500">
+  <button onClick={() => openForm('signin')} className="w-[136px] justify-center inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-[#806056] ml-[39px] hover:scale-110 ease-in-out duration-500">
     Đăng nhập
   </button>
   <Dialog
@@ -113,7 +115,7 @@ function NavBar() {
         openSignup={() => openForm('signup')}/>
       </Dialog>
 
-  <button onClick={() => openForm('signup')} className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-white ml-[20px] bg-[#806056] hover:scale-110 ease-in-out duration-500">
+  <button onClick={() => openForm('signup')} className="w-[136px] justify-center inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-white ml-[20px] bg-[#806056] hover:scale-110 ease-in-out duration-500">
     Đăng ký
   </button>
   <Dialog
@@ -122,7 +124,8 @@ function NavBar() {
         ref={dialogRef}
         className="bg-transparent shadow-none"
         >
-        <Signup 
+        <Signup
+        setIsSignupDialogOpen={setIsSignupDialogOpen} 
         onSignInClick={() => openForm('signin')} />
       </Dialog>
     </>
