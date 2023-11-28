@@ -2,19 +2,11 @@ import React, { useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Avatar } from "@material-tailwind/react";
 import Link from 'next/link';
-const VerticalThumbnailSlider = () => {
+const VerticalThumbnailSlider = ({images}) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showCarousel, setShowCarousel] = useState(false);
 
-  const images = [
-    '/pic1.jpg',
-    '/pic2.jpg',
-    '/pic3.jpg',
-    '/pic4.jpg',
-    '/pic5.jpg',
-    '/pic6.jpg',
-    '/pic7.jpg',
-  ];
+  
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);

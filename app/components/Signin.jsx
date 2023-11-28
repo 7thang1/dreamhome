@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Button,
     Card,
@@ -34,7 +34,6 @@ function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
     try {
       const data = await login(email, password);
       if (data.message === 'Login success'){
-        Cookies.set('accessToken',data.elements.token,)
         setIsLoggedIn(true);
         setIsSigninDialogOpen(false);
       }
@@ -50,6 +49,7 @@ function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
     }
   }
   };
+ 
   return (
     <Card className='relative flex flex-col w-[497px] h-[512px] items-center  bg-white rounded-2xl '>
         <button onClick={handleClose} className='w-[20px] h-[20px] mt-[19px] mr-[19px]  items-center flex justify-center self-end  absolute '><IoIosClose size={20} /></button>

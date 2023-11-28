@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react'
 import { Breadcrumbs } from '@material-tailwind/react'
 import Map from '../components/Map';
 import UploadImage from '../components/UploadImage';
+import { getProvinces, getDistricts, getWards } from '../components/API';
 function Post() {
     const [selectedType, setSelectedType] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -10,11 +11,62 @@ function Post() {
     const [selectedDistrict, setSelectedDistrict] = useState('');
     const [selectedWard, setSelectedWard] = useState('');
     const [street, setStreet] = useState('');
-    const [selectedBedroom, setSelectedBedroom] = useState('');
-    const [selectedBathroom, setSelectedBathroom] = useState('');
-    const [selectedParkinglot, setSelectedParkinglot] = useState('');
-    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedBedroom, setSelectedBedroom] = useState(0);
+    const [selectedBathroom, setSelectedBathroom] = useState(0);
+    const [selectedParkinglot, setSelectedParkinglot] = useState(0);
+    const [selectedYear, setSelectedYear] = useState(0);
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    
+    const fetchProvinces = async () => {
+    try{
+        const response = await getProvinces();
+        const data = await response.json();
+        setProvinces(data);
+    }
+    catch(error){
+        console.log(error);
+    }
+};
+    const fetchDistricts = async (provinceCode) => {
+        try{
+            const response = await getDistricts(provinceCode);
+            const data = await response.json();
+            setDistricts(data);
+        }
+        catch(error){
+            console.log(error);
+        }
+    };
+    const fetchWards = async (districtCode) => {
+        try{
+            const response = await getWards(districtCode);
+            const data = await response.json();
+            setWards(data);
+        }
+        catch(error){
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        fetchProvinces();
+    }, []);
 
+    useEffect(() => {
+        if (selectedProvince !== '0') {
+            fetchDistricts(selectedProvince);
+        }
+    }, [selectedProvince]);
+
+    useEffect(() => {
+        if (selectedDistrict !== '0') {
+            fetchWards(selectedDistrict);
+        }
+    }, [selectedDistrict]);
+
+
+    
     const handleTypeClick = (type) => {
       setSelectedType(type);
     };
@@ -32,7 +84,7 @@ function Post() {
     }
    
   return (
-    <div className='flex flex-col max-w-[1280px]'>
+    <div className='flex flex-col '>
         <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[30px] '>
       <a href="" className="opacity-60 text-sm font-medium text-[#282E3C]">
         Trang chủ
@@ -41,19 +93,9 @@ function Post() {
         Đăng tin bất động sản
       </a>
     </Breadcrumbs>
-        <div className='flex flex-row p-[30px] max-w-[1280px] mb-10 gap-x-10 rounded-2xl border-[0.5px] border-solid border-[#f5f5f5] bg-[#f8f8f8]'>
+        <div className='flex flex-row p-[30px]  mb-10 gap-x-10 rounded-2xl border-[0.5px] border-solid border-[#f5f5f5] bg-[#f8f8f8]'>
             <div className='flex flex-col '>
                 <span className='text-[#1c1d21] text-sm font-semibold  mb-[30px]'>Thông tin cơ bản</span>
-               <div className='flex flex-row gap-x-10 mb-[30px] '>
-                    <div className='flex flex-col max-w-[320px] gap-y-[8px]'>
-                        <label className='text-[#111] text-sm font-medium'> <label className='text-[#f62a19] text-sm font-medium'>*</label> Họ</label>
-                        <input type="text" className='w-[320px] inline-flex p-[15px] items-start justify-center rounded-md border-[0.5px] border-solid border-[#D6D6D6] bg-[#f8f8f8] text-[#1c1d21] text-sm font-normal'/>
-                    </div>
-                    <div className='flex flex-col max-w-[320px] gap-y-[8px]'>
-                        <label className='text-[#111] text-sm font-medium'> <label className='text-[#f62a19] text-sm font-medium'>*</label> Tên</label>
-                        <input type="text" className='w-[320px] inline-flex p-[15px] items-start justify-center rounded-md border-[0.5px] border-solid border-[#D6D6D6] bg-[#f8f8f8] text-[#1c1d21] text-sm font-normal'/>
-                    </div>
-               </div>
                <div className='flex flex-row gap-x-10 mb-[30px]'>
                     <div className='flex flex-col max-w-[320px] gap-y-[8px]'>
                         <label className='text-[#111] text-sm font-medium'>Tên dự án</label>
@@ -67,7 +109,7 @@ function Post() {
                             onClick={() => handleTypeClick('mua')}>
                             Mua bán
                         </button>
-                        <button
+                        <button 
                             className={`flex w-[120px] items-center justify-center p-[15px] rounded-md border-[0.5px] border-solid border-[#D6D6D6] text-[#1c1d21] text-sm font-normal ${selectedType === 'thue' ? 'bg-[#805056] text-[#fff]' : ''}`}
                             onClick={() => handleTypeClick('thue')}>
                             Cho thuê
@@ -118,10 +160,10 @@ function Post() {
                         onChange={(e) => setSelectedDistrict(e.target.value)}
                         className='w-[320px] flex justify-center p-[15px]  rounded-md border-[0.5px] border-solid border-[#9a9a9a] text-sm font-normal text-[#1c1d21]' >
                             <option value='0'>Chọn Quận/Huyện</option>
-                            <option value='Hà Nội'>Hà Nội</option>
-                            <option value='Đà Nẵng'>Đà Nẵng</option>
-                            <option value='Tp. Hồ Chí Minh'>Tp. Hồ Chí Minh</option>
-                            <option value='Bình Dương'>Bình Dương</option>
+                            <option value='01'>Hà Nội</option>
+                            <option value='48'>Đà Nẵng</option>
+                            <option value='79   '>Tp. Hồ Chí Minh</option>
+                            <option value='74'>Bình Dương</option>
                           
                         </select>
                     </div>
@@ -151,7 +193,7 @@ function Post() {
             
              />
         </div>
-        <div className='flex flex-row p-[30px] max-w-[1280px] mb-10 gap-x-10 rounded-2xl border-[0.5px] border-solid border-[#f5f5f5] bg-[#f8f8f8]'>
+        <div className='flex flex-row p-[30px]  mb-10 gap-x-10 rounded-2xl border-[0.5px] border-solid border-[#f5f5f5] bg-[#f8f8f8]'>
             <div className='flex flex-col'>
             <span className='text-[#1c1d21] text-sm font-semibold  mb-[30px]'>Thông tin mô tả</span>
         <div className='flex flex-col  max-w-[687px] '>
@@ -248,7 +290,7 @@ function Post() {
 
             </div>
         </div>
-        <button className='max-w-[86px] self-end inline-flex py-[10px] px-[15px] items-center justify-center rounded-lg bg-[#806056] text-[#fff] text-sm font-medium'>
+        <button className='max-w-[86px] self-end inline-flex py-[10px] mb-20 px-[15px] items-center justify-center rounded-lg bg-[#806056] text-[#fff] text-sm font-medium'>
             Đăng tin
         </button>
     </div>

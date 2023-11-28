@@ -6,8 +6,8 @@ const ProductData = [
         location:"Long Biên, Hà Nội",
         price: '3.3 tỷ' ,
         superficiality: '120' ,
-        bedroom: '3  ',
-        bathroom: '2  ',
+        bedroom: '3',
+        bathroom: '2',
         status: 'sold',
     },
     {
@@ -17,8 +17,8 @@ const ProductData = [
         location:"Long Biên, Hà Nội",
         price: '3.3 tỷ' ,
         superficiality: '120' ,
-        bedroom: '3  ',
-        bathroom: '2  ',
+        bedroom: '3',
+        bathroom: '2',
         status: 'selling',
     },
     {
@@ -28,8 +28,8 @@ const ProductData = [
         location:"Long Biên, Hà Nội",
         price: '3.3 tỷ' ,
         superficiality: '120' ,
-        bedroom: '3  ',
-        bathroom: '2  ',
+        bedroom: '3',
+        bathroom: '2',
         status: 'selling',
     },
     {

@@ -2,7 +2,7 @@ import React from 'react'
 import NewsData from '../newscontent'
 function Section5() {
   return (
-    <div className='max-w-[1280px] inline-flex flex-col justify-end items-start gap-[30px] mb-[73px]'>
+    <div className=' inline-flex flex-col justify-end items-start gap-[30px] mb-[73px]'>
         <span className='text-[20px] text-[#000] font-semibold leading-[30px]'>Tin tức bất động sản</span>
         <div className='flex flex-row gap-10 '>
             {NewsData.map((post) => (

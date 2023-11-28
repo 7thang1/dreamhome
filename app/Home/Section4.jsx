@@ -2,9 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 function Section4() {
   return (
-    <div className='relative max-w-[1280px]'>
+    <div className='relative '>
         <img className='w-[905px] h-[581px] absolute inset-0 z-[-1]  mt-[159px]  ml-[375px] bg-cover bg-center' src='/map.svg' alt="Map"></img>
-      <div className='max-w-[1280px] mt-20 flex mb-[80px] h-[481px]   '>
+      <div className=' mt-20 flex mb-[80px] h-[481px]   '>
         <div className='max-w-[90px] grid grid-cols-4 gap-5 absolute ml-[777px] '>
             <div className='w-[5px] h-[5px] rounded-full bg-[#B9A6A0]'/>
             <div className='w-[5px] h-[5px] rounded-full bg-[#B9A6A0]'/>
@@ -23,8 +23,8 @@ function Section4() {
             <div className='w-[5px] h-[5px] rounded-full bg-[#B9A6A0]'/>
             <div className='w-[5px] h-[5px] rounded-full bg-[#B9A6A0]'/>
         </div>
-        <div className='max-w-[1280px] h-[351px] pl-[50px] pr-[22px] py-[30px] mt-[30px] shrink-0 rounded-xl bg-[#F6F8FA] '>
-           <div className='max-w-[1280px] flex justify-between gap-[911px]'>
+        <div className=' h-[351px] pl-[50px] pr-[22px] py-[30px] mt-[30px] shrink-0 rounded-xl bg-[#F6F8FA] '>
+           <div className=' flex justify-between gap-[911px]'>
             <p className='text-[#806056] text-[14px] font-normal leading-[21px] mb-[8px]'>
             Tại sao lựa chọn của bạn nên là chúng tôi?
             </p>
@@ -33,7 +33,7 @@ function Section4() {
             <p className='text-[#3A4C61] text-[18px] font-bold leading-[27px] uppercase mb-[10px]'>
             CHÚNG TÔI CUNG CẤP NHỮNG GÌ?
             </p>
-            <div className='max-w-[1280px] flex justify-stretch gap-[53px] '>
+            <div className=' flex justify-stretch gap-[53px] '>
             <span className='text-[#3A4C61] text-[14px] font-normal leading-[21px] max-w-[981px]'>
             Chúng tôi luôn cố gắng đáp ứng các yêu cầu khác nhau của khách hàng và tìm kiếm giải pháp phù hợp nhất cho họ. Danh sách bất động sản trên trang web của chúng tôi đi kèm với thông tin chi tiết, hình ảnh và đánh giá, giúp khách hàng có cái nhìn toàn diện.
             </span>
@@ -95,7 +95,7 @@ function Section4() {
 
         </div>
     </div>
-    <div className='max-w-[1280px] flex flex-col mb-[80px] '>
+    <div className=' flex flex-col mb-[80px] '>
         <p className='text-[#000] text-[20px] font-semibold leading-[30px] mb-[30px]'>Bất động sản theo địa điểm </p>
         <div className='flex flex-row gap-[25px] max-h[542px] w-full  '>
             <a href='#' className='flex max-w-[413px] max-h-[542px]'>
@@ -184,9 +184,9 @@ function Section4() {
         </div>
         <div className='flex flex-row gap-[6.5px] items-center justify-center self-center mt-[10px]'>
             <Link href={``}>
-            <a className='text-[#9FAA85] text-sm font-semibold underline p-[6px]'>Xem thêm nhiều địa điểm khác
+            <span className='text-[#9FAA85] text-sm font-semibold underline p-[6px]'>Xem thêm nhiều địa điểm khác
             
-            </a>
+            </span>
             <button className='w-[30px] h-[30px] flex items-center justify-center rounded-full border-[1px] border-solid border-[#9FAA85] '><img className='w-[14px] h-[12px]' src='/arrow.svg' alt='arrow'></img></button>
             </Link>
 

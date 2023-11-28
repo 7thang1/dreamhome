@@ -4,7 +4,7 @@ function Section1() {
   return (
     <section className='hero'>
       <div className='max-w[1280px] w-auto h-[391px]  '>
-      <div className='max-w-[1280px] w-auto h-[282px] rounded-[30px] bg-gradient-to-r from-[#a88b7e] via-[#d3ae8e] to-[#aeab82]  justify-between flex shrink-0  '>
+      <div className=' w-auto h-[282px] rounded-[30px] bg-gradient-to-r from-[#a88b7e] via-[#d3ae8e] to-[#aeab82]  justify-between flex shrink-0  '>
         <div className='text-white py-[35px] px-[50px] space-y-3 '>
       <h3 className='text-base font-bold '> Chào mừng đến với  Dream Home</h3>
         <h1 className='text-3xl font-bold break-words whitespace-normal uppercase leading-[45px]  '> Khám phá không gian <br/> sống lý tưởng </h1>
