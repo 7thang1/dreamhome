@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@material-tailwind/react";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
@@ -17,18 +19,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={inter.className}>
-
-
-
-
         <ThemeProvider>
           <NavBar />
           {children}
         </ThemeProvider>
-      </body>
-      <footer className="w-auto h-auto px-[80px] mb-[30px] ">
         <Footer />
-      </footer>
+      </body>
     </html>
   );
 }

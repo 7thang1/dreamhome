@@ -88,7 +88,7 @@ function Selling() {
     };
 
   return (
-    <div className='flex max-w-[1280px] flex-col'>
+    <div className='flex  flex-col'>
           <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[15px] '>
       <a href="" className="opacity-60 text-sm font-medium text-[#282E3C]">
         Trang chủ
@@ -103,7 +103,7 @@ function Selling() {
             <span className='text-[#099c4d] text-sm font-normal'>Khám phá danh sách các căn hộ, biệt thự, nhà phố và đất nền đang được bán trên toàn quốc.</span>
         </div>
         <FilterBar/>
-        <div className='flex max-w-[1280px] justify-between'>
+        <div className='flex  justify-between'>
             <div className='flex flex-col max-w-[1000px]'>
                 <div className='flex justify-between mb-[30px]'>
                     <span className='text-[#000] text-lg font-medium'>Hiện có 17.645 kết quả</span>

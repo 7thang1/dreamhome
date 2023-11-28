@@ -1,15 +1,31 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Card from './ProductCard';
-import ProductData from '../content';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
+import { getListProperty } from './API';
 
 
 
 const ProductCarousel = () => {
   const swiperRef = useRef(null);
+  const [properties, setProperties] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+ 
+  const fetchData = async (page) => {
+    try {
+      const data = await getListProperty(page);
+      if (data) {
+        setProperties(data.elements);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+useEffect(() => {
+    fetchData(currentPage);
 
+  }, [currentPage]);
   return (
     <div className=''>
       <p className='text-[#000] text-xl font-semibold mb-[30px] '>Bất động sản dành cho bạn</p>
@@ -22,14 +38,14 @@ const ProductCarousel = () => {
         onSwiper={(swiper) => (swiperRef.current = swiper)}
 
       >
-        {ProductData.map((product) => (
+        {properties.map((product) => (
           <SwiperSlide key={product.id}>
             <Card
-              image={product.image}
+              image={product.image_url}
               name={product.name}
-              location={product.location}
+              location={product.district_name + ', ' + product.province_name}
               price={product.price}
-              superficiality={product.superficiality}
+              superficiality={product.area}
               bedroom={product.bedroom}
               bathroom={product.bathroom}
             />

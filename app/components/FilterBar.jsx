@@ -5,7 +5,7 @@ function FilterBar() {
     const [priceFilter, setPriceFilter] = useState('');
     const [superficialityFilter, setSuperficialityFilter] = useState('');  
   return (
-    <div className='flex flex-row mt-5 py-6 px-[30px] max-w-[1280px] justify-center gap-[30px] items-end border-[1px] border-solid rounded-2xl mb-10 '>
+    <div className='flex flex-row mt-5 py-6 px-[30px]  justify-center gap-[30px] items-end border-[1px] border-solid rounded-2xl mb-10 '>
     <div className='w-[310px] h-[50px] rounded-lg bg-[#F8F8F8] flex items-center p-[13px] '>
         <img src='/search.png' alt='search' className='fill-[#6F737E] w-[25px] h-[25px] '></img>
         <input

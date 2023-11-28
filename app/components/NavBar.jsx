@@ -11,7 +11,7 @@ const menuItems = [
   { label: "Dự án", href: "#" },
   { label: "On Sale", href: "#" },
 ];
-
+import Cookies from 'js-cookie';
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSigninDialogOpen, setIsSigninDialogOpen] = useState(false);
@@ -22,6 +22,10 @@ function NavBar() {
 
 
   useEffect(() => {
+    // const token = localStorage.getItem('token');
+    // if (token) {
+    //   setIsLoggedIn(true);
+    // }
     function handleClickOutside(event) {
       if (dialogRef.current && !dialogRef.current.contains(event.target)) {
         setIsSigninDialogOpen(false);
@@ -35,7 +39,7 @@ function NavBar() {
       // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  },);
   const openForm = (form) => {
     setCurrentForm(form);
     if (form === 'signin') {
@@ -47,14 +51,14 @@ function NavBar() {
     }
   };
     return(
-        <div className='max-w-[1280px] px-[50px] bg-gradient-to-tr from-[rgba(243,243,243,0.56)] via-[rgba(244,244,244,0.45)] to-transparent rounded-[10px] shadow-md py-[12px]  flex mb-10 shrink-0'>
+        <div className=' px-[50px] bg-gradient-to-tr from-[rgba(243,243,243,0.56)] via-[rgba(244,244,244,0.45)] to-transparent rounded-[10px] shadow-md py-[12px]  flex mb-10 shrink-0'>
             <header className=''>
                <div className=' flex items-center justify-between h-auto'>
             <Link href="/" className="font-semibold text-[16px]  flex flex-col justify-self-center	w-fit mr-[183px]">
                 <img src="/logo1.png" alt="DreamHome" width={43} height={21} />
                 <span className='capitalize text-transparent bg-gradient-to-t from-[#7A5F61] to-[#C28653] bg-clip-text'>Dream Home</span>
             </Link> 
-                <ul className=" max-w-[388px] flex items-center justify-center gap-[25px] bg-black w-[388px] rounded-[100px] h-[44px] shrink-0" >
+                <ul className=" max-w-[388px] flex items-center justify-center gap-[25px] bg-black w-[388px] rounded-[100px] h-[44px] shrink-0 mr-[130px]" >
                     {menuItems.map((menuItems) => (
                         <li key={menuItems.label} className='text-white font-medium text-[14px]  hover:text-red-500 ease-in-out duration-500 '>
                             <Link href={menuItems.href}>{menuItems.label}</Link>
@@ -64,28 +68,7 @@ function NavBar() {
             <img src='/search.svg' alt='search' className='w-[18px] h-[18px] hover:scale-110 ease-in-out duration-500' />
           </li>
                 </ul>
-                <div
-                        className='w-auto inline-flex items-center gap-[10px] relative ml-[59px] h-fit '
-                        onMouseOver={() => setIsOpen(true)}
-                        onMouseOut={() => setIsOpen(false)}
-                    >
-                        <span className='text-[14px] font-medium'>Dịch vụ khác</span>
-                        <img src={isOpen ? '/up-arrow.png' : '/down-arrow.png'} alt='arrow' className='w-[12px] h-[8px]' />
-                        {isOpen && (
-                            <div
-                                className='absolute bg-white border rounded-[5px] p-[10px] flex flex-col top-[90%]'
-                                style={{
-                                    flexDirection: 'column',
-                                    left: '0',
-                                    transition: 'all 0.3s ease-in-out'
-                                }}
-                            >
-                                <a href="#">Service 1</a>
-                                <a href="#">Service 2</a>
-                                <a href="#">Service 3</a>
-                            </div>
-                        )}
-                    </div>
+              
   {isLoggedIn ? (
   <>
   <button className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-[#806056] ml-[39px] hover:scale-110 ease-in-out duration-500">

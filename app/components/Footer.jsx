@@ -17,7 +17,7 @@ const LINKS = [
 ]
 function Footer() {
   return (
- <div className='max-w-[1280px] rounded-2xl shrink-0 bg-[#1b1b1b] flex-row p-[40px]   '>
+ <div className=' rounded-2xl shrink-0 bg-[#1b1b1b] flex-row p-[40px]   '>
     <div className='mb-[30px] w-auto h-auto space-y-[10px]'>
     <Typography className='text-white  text-[30px] font-semibold leading-[45px]'>
     Ready To Work With Us?

@@ -29,7 +29,7 @@ function Section6() {
   }, [currentIndex, totalPages]);
 
   return (
-    <div className='max-w-[1280px] h-[528px] flex flex-col items-center bg-[#F6F8FA] rounded-xl px-[15px] mb-20'>
+    <div className=' h-[528px] flex flex-col items-center bg-[#F6F8FA] rounded-xl px-[15px] mb-20'>
       <img className='absolute w-[80px] h-[130px] self-end' src='./Frame16.svg' alt='feedback-image' />
       <div className='inline-flex justify-center items-center gap-[18px] mt-[90px] mb-[10px]'>
         <div className='w-[48px] h-[5px] bg-[#806056]' />
