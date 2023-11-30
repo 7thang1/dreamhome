@@ -12,20 +12,15 @@ const menuItems = [
   { label: "On Sale", href: "#" },
 ];
 import Cookies from 'js-cookie';
-function NavBar() {
+function NavBar({isLoggedIn}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSigninDialogOpen, setIsSigninDialogOpen] = useState(false);
   const [isSignupDialogOpen, setIsSignupDialogOpen] = useState(false);
   const [currentForm, setCurrentForm] = useState('signin');
   const dialogRef = useRef(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
 
   useEffect(() => {
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   setIsLoggedIn(true);
-    // }
+  
     function handleClickOutside(event) {
       if (dialogRef.current && !dialogRef.current.contains(event.target)) {
         setIsSigninDialogOpen(false);
@@ -93,7 +88,7 @@ function NavBar() {
         className="bg-transparent shadow-none"
       >
         <Signin 
-        setIsLoggedIn={setIsLoggedIn}
+        setIsLoggedIn={isLoggedIn}
         setIsSigninDialogOpen={setIsSigninDialogOpen}
         openSignup={() => openForm('signup')}/>
       </Dialog>
