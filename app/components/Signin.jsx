@@ -10,7 +10,7 @@ import {
     Checkbox,
   } from "@material-tailwind/react";
   import { IoIosClose } from "react-icons/io";
-import {login} from './API';
+import {login, getUserInfo} from './API';
 import Cookies from 'js-cookie';
 function Signin({ isLoggedIn, setIsSigninDialogOpen, openSignup }) {
   const [email, setEmail] = useState('');

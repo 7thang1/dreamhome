@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
-
+import { addBookmark, removeBookmark, getBookmarkslist } from './API';
 function Card(props) {
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [userBookmarks, setUserBookmarks] = useState([]); 
     const convertPrice = (price) => {
         const hasTrailingZeros = price % 1000000 === 0;
         if (price >= 1000000000 && hasTrailingZeros) {
@@ -23,7 +24,26 @@ function Card(props) {
       }
     const handleBookmarkClick = () => {
       setIsBookmarked(!isBookmarked);
+      if (isBookmarked) {
+        removeBookmark(props.id);
+      } else {
+        addBookmark(props.id);
+      }
     };
+    useEffect(()=>{
+        const fetchBookmarks = async () => {
+          const bookmarks = await getBookmarkslist();
+          if (!bookmarks) {
+            setUserBookmarks(bookmarks.elements);
+            bookmarks.elements.forEach((bookmark) => {
+            if (bookmark.property_id === props.id) {
+              setIsBookmarked(true);
+            }
+          });
+        }
+        };
+        fetchBookmarks();
+    }, [props.id])
     return (
         <div className='max-w-[300px] shadow-md items-center  flex flex-col' key={props.id}>
         <img className='w-[300px] h-[203px] rounded-[6px]' src={props.image} alt='HouseImage'></img>

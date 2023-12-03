@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   const [tokenExpiredAt, setTokenExpiredAt] = useState(null);
   useEffect(() => {
     const authToken = Cookies.get("accessToken")
-    if (authToken){
+    if (authToken){ 
       const decodeToken = jwtDecode(authToken);
       const exp = decodeToken.exp;
       const currentTime = Date.now()/1000;

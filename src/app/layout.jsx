@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@material-tailwind/react";
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
+import "@uploadthing/react/style.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children })  {

@@ -1,0 +1,8 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="logout">
+<rect width="20" height="20" fill="white"/>
+<path id="path" d="M19 10L11 10" stroke="#1C1D21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="path_2" d="M16 13L18.913 10.087V10.087C18.961 10.039 18.961 9.96103 18.913 9.91296V9.91296L16 7" stroke="#1C1D21" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector 335" d="M14 3V2.5V2.5C14 1.67157 13.3284 1 12.5 1H3C1.89543 1 1 1.89543 1 3V17C1 18.1046 1.89543 19 3 19H12.5C13.3284 19 14 18.3284 14 17.5V17.5V17" stroke="#1C1D21" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>
