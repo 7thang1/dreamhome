@@ -1,14 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Breadcrumbs } from '@material-tailwind/react';
 import FilterBar from '../components/FilterBar';
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import styled, {css} from 'styled-components';
 import HorizontalCard from '../components/ProductCardHorizontal';
-import ProductData from '../content';
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 import Link from 'next/link';
+import { getPropertiesbyCategory } from "../components/API";
 const PaginationButton = styled.button`
   background-color: #fff;
   border: none;
@@ -29,17 +29,10 @@ const PaginationButton = styled.button`
   `}
  `;
 function Rental() {
-    const [locationFilter, setLocationFilter] = useState('');
-    const [priceFilter, setPriceFilter] = useState('');
-    const [superficialityFilter, setSuperficialityFilter] = useState('');  
-    const [sortByPrice, setSortByPrice] = useState('');  
+    const [sortByPrice, setSortByPrice] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 8;
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = ProductData.slice(indexOfFirstProduct, indexOfLastProduct);
-    const totalProducts = ProductData.length;
-    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    const [properties, setProperties] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
     const [phoneNumbersHidden, setPhoneNumbersHidden] = useState(true);
     const handleToggleVisibility = () => {
         setPhoneNumbersHidden((prev) => !prev);
@@ -86,7 +79,30 @@ function Rental() {
     const handleSortChange = (event) => {
         setSortByPrice(event.target.value);
     };
-
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getPropertiesbyCategory('rent', currentPage);
+            let sortedProperties = [...data.elements];
+    
+            sortedProperties = sortedProperties.map(property => {
+                return {
+                    ...property,
+                    status: property.status === 'available' ? 'renting' : 'rented'
+                };
+            });
+    
+            if (sortByPrice === 'lowToHigh') {
+                sortedProperties.sort((a, b) => a.price - b.price);
+            } else if (sortByPrice === 'highToLow') {
+                sortedProperties.sort((a, b) => b.price - a.price);
+            }
+    
+            setProperties(sortedProperties);
+            setTotalPages(Math.ceil(sortedProperties.length / 12));
+        };
+    
+        fetchData();
+        }, [currentPage, sortByPrice]);    
   return (
     <div className='flex  flex-col'>
           <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[15px] '>
@@ -102,7 +118,7 @@ function Rental() {
             <span className='text-[#29df7d] text-2xl font-semibold mb-[5px]'>Nhà đất bán</span>
             <span className='text-[#099c4d] text-sm font-normal'>Khám phá danh sách các căn hộ, biệt thự, nhà phố và đất nền đang được bán trên toàn quốc.</span>
         </div>
-        <FilterBar/>
+        {/* <FilterBar/> */}
         <div className='flex  justify-between'>
             <div className='flex flex-col max-w-[1000px]'>
                 <div className='flex justify-between mb-[30px]'>
@@ -121,17 +137,19 @@ function Rental() {
                     </div>
                 </div>
                 <div className='flex flex-col gap-y-10'>
-                    {currentProducts.map((card) => (
-                        <HorizontalCard
-                        key={card.id}
-                        image={card.image}
-                        name={card.name}
-                        location={card.location}
-                        price={card.price}
-                        superficiality={card.superficiality}
-                        bedroom={card.bedroom}
-                        bathroom={card.bathroom}
-                        />
+                {properties.map((property) => (
+                <HorizontalCard
+                key={property.id}
+                image={property.image_url}
+                name={property.property_name}
+                location={`${property.address}, ${property.district_name}, ${property.province_name}`}
+                price={property.price}
+                superficiality={property.area}
+                bedroom={property.bedroom}
+                bathroom={property.bathroom}
+                status={property.status}
+                
+                />
                     ))}
                 </div>
                 <div className='flex items-center justify-center gap-[10px] mt-[60px] mb-[60px]'>

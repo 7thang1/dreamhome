@@ -235,3 +235,13 @@ export async function getBookmarkslist(){
     return null;
   }
 }
+export async function getPropertiesbyCategory(category, pageNumber){
+  const url = `${baseurl}/property/getlistpropertybycategory/${category}?pageNumber=${pageNumber}`;
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

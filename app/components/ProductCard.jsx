@@ -30,20 +30,20 @@ function Card(props) {
         addBookmark(props.id);
       }
     };
-    useEffect(()=>{
-        const fetchBookmarks = async () => {
-          const bookmarks = await getBookmarkslist();
-          if (!bookmarks) {
-            setUserBookmarks(bookmarks.elements);
-            bookmarks.elements.forEach((bookmark) => {
+    useEffect(() => {
+      const fetchBookmarks = async () => {
+        const bookmarks = await getBookmarkslist();
+        if (bookmarks && bookmarks.elements) {
+          setUserBookmarks(bookmarks.elements);
+          bookmarks.elements.forEach((bookmark) => {
             if (bookmark.property_id === props.id) {
               setIsBookmarked(true);
             }
           });
         }
-        };
-        fetchBookmarks();
-    }, [props.id])
+      };
+      fetchBookmarks();
+    }, [props.id]);
     return (
         <div className='max-w-[300px] shadow-md items-center  flex flex-col' key={props.id}>
         <img className='w-[300px] h-[203px] rounded-[6px]' src={props.image} alt='HouseImage'></img>
