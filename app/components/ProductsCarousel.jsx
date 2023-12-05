@@ -39,8 +39,10 @@ useEffect(() => {
 
       >
         {properties.map((product) => (
-          <SwiperSlide key={product.id}>
+          <SwiperSlide >
             <Card
+              key={product.id}
+              id={product.id}
               image={product.image_url}
               name={product.name}
               location={product.district_name + ', ' + product.province_name}

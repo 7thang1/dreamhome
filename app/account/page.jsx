@@ -103,6 +103,7 @@ function AccountPage() {
         superficiality={post.area}
         bedroom={post.bedroom}
         bathroom={post.bathroom}
+        isSwitchButton={true}
         />  
         ))}
       </div>

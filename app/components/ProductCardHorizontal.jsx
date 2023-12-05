@@ -17,10 +17,10 @@ function ProductCardHorizontal(props) {
         const hasTrailingZeros = price % 1000000 === 0;
         if (price >= 1000000000 && hasTrailingZeros) {
           // Nếu giá lớn hơn hoặc bằng 1 tỷ và có chứa số 0 ở cuối, chuyển đổi sang tỷ
-          return `${(price / 1000000000).toFixed(2)} tỷ`;
+          return `${(price / 1000000000).toFixed(0)} tỷ`;
         } else if (price >= 1000000) {
           // Nếu giá lớn hơn hoặc bằng 1 triệu, chuyển đổi sang triệu
-          return `${(price / 1000000).toFixed(2)} triệu`;
+          return `${(price / 1000000).toFixed(0)} triệu`;
         } else {
           // Nếu giá nhỏ hơn 1 triệu, hiển thị theo đơn vị hiện tại
           return `${price}`;

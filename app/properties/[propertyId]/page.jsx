@@ -13,7 +13,7 @@ function ProductDetails({params}) {
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const keywords = ['Quận 7', 'Thủ Đức', 'Quận 1', 'Tân Bình', 'Bình Thạnh', 'Bình Chánh', 'Phú Nhuận', 'Quận 9', 'Quận 10', 'Quận 11', 'Quận 8' , 'Quận 4'];
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [property, setProperty] = useState(null);
+  const [property, setProperty] = useState([]);
   const [propertyStatus, setPropertyStatus] = useState('');
     const handleBookmarkClick = () => {
       setIsBookmarked(!isBookmarked);
@@ -25,9 +25,9 @@ function ProductDetails({params}) {
     const convertPrice = (price) => {
       const hasTrailingZeros = price % 1000000 === 0;
       if (price >= 1000000000 && hasTrailingZeros) {
-        return `${(price / 1000000000).toFixed(2)} tỷ`;
+        return `${(price / 1000000000).toFixed(0)} tỷ`;
       } else if (price >= 1000000) {
-        return `${(price / 1000000).toFixed(2)} triệu`;
+        return `${(price / 1000000).toFixed(0)} triệu`;
       } else {
         return `${price} VNĐ`;
       }
@@ -69,10 +69,11 @@ function ProductDetails({params}) {
     useEffect(() => {
       const fetchData = async () => {
         const result = await getPropertyDetail(params.propertyId);
-        setProperty(result.elements[0]); 
-      if (setProperty.status == 'available')
+        setProperty(result.elements[0]);
+        setTimeout(() => {
+            if (result.elements[0].status == 'available')
       {
-        if (setProperty.property_category == 'sell')
+        if (result.elements[0].property_category == 'sell')
         { 
           setPropertyStatus('Đang bán');
         }
@@ -81,7 +82,7 @@ function ProductDetails({params}) {
         }
       }
       else {
-        if (setProperty.property_category == 'sell')
+        if (result.elements[0].property_category == 'sell')
         { 
           setPropertyStatus('Đã bán');
         }
@@ -89,9 +90,11 @@ function ProductDetails({params}) {
           setPropertyStatus('Đã cho thuê');
         }
       }
+        }, 2000);
+    
       };
-
-      fetchData();},[]);
+fetchData()
+;}, [params.propertyId]);
   return (
     <div className='mt-10 '>
     <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[30px] '>
@@ -112,18 +115,18 @@ function ProductDetails({params}) {
 <div className='flex flex-col ml-[25px]'>
  <div className='w-[260px] h-[265px] flex flex-col items-center  border-[0.5px] border-solid border-[#D6D6D6] bg-[#fff] rounded-t-md  '>
    <div className='flex items-center justify-center w-[65px] h-[65px] mt-[30px] p-[3px] rounded-full bg-white border-[1px] border-[#BCACA7]'>
-     <Avatar className='w-[60px] h-[60px]' src={property?.user_image} alt='avatar'/>
+     <Avatar className='w-[60px] h-[60px]' src={property?.user_image || 'https://cdn.thedreamhome.click/default-avt.jpg'}  alt='avatar'/>
    </div>
    <span className='mt-[6px] text-[#848484] text-[13px] font-normal leading-[19.5px]'>Người đăng</span>
    <span className='mt-[5px] text-[#000] text-base font-bold'>{property?.user_name}</span>
    <div className='w-[230px] h-[44px] rounded-md bg-[#ECE7E6] mt-[15px] mb-[14px] p-[15px] flex justify-between items-center'>
-   <span className='text-[#282E3C] text-[13px] font-normal '>{property?.user_phone}</span>
-       <a
+   <span className='text-[#282E3C] text-[13px] font-normal '>{property?.user_phone || 'Chưa cập nhật SĐT'}</span>
+       {/* <a
          className='text-[#806056] text-[13px] font-medium underline cursor-pointer'
          onClick={handleTogglePhoneNumber}
        >
          {showPhoneNumber ? 'Ẩn số' : 'Hiển thị số'}
-       </a>
+       </a> */}
    </div>
    <Link className='flex items-center text-[#6f737e]' href=''>
    <span className='text-sm font-medium mr-[7px]'>5 bài đăng khác</span>
@@ -189,7 +192,7 @@ function ProductDetails({params}) {
          <div className=''>
          <div className='flex flex-col mb-[23px] '>
            <span className='text-[#727386] text-sm font-medium'>Mức giá</span>
-           <span className='text-[#806056] text-3xl font-bold'>{convertPrice(property.price)}VNĐ</span>
+           <span className='text-[#806056] text-3xl font-bold'>{convertPrice(property.price)} VNĐ</span>
          </div>
          <div className='flex flex-col gap-[15px]'>
            <span className='text-[#727386] text-sm font-medium'>Mức độ an toàn</span>

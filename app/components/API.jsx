@@ -245,4 +245,21 @@ export async function getPropertiesbyCategory(category){
     console.log(error);
     return null;
   }
+};
+export async function updateStatusproperty(propertyId, status){
+  const url = `${baseurl}/property/updatestatusproperty`;
+  try {
+    const response = await axios.put(url, {
+      propertyId,
+      status
+    }, {
+      headers:{
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }

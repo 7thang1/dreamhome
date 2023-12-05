@@ -109,31 +109,19 @@ const menuItems = [
                 <Link href={menuItems.href}>{menuItems.label}</Link>
               </li>
             ))}
-            {/* <li 
-            onClick={() => setIsSearchBarOpen(!isSearchBarOpen)}
-            className="rounded-full w-[31px] h-[31px] justify-center bg-[#535353] p-[6px] cursor-pointer">
-              <img
-                src="/search.svg"
-                alt="search"
-                className="w-[18px] h-[18px] hover:scale-110 ease-in-out duration-500"
-              />
-            </li>{" "}
-            {isSearchBarOpen && (
-            <div className="absolute w-[320px] h-[30px] p-2 bg-white rounded-full flex items-center mr-[40px] transition-transform  duration-1000">
-              <input className="w-full h-full focus:outline-none"></input>
-            </div>
-          )} */}
-     
+
           <Search/>
         
           </ul>
 
           {isLoggedIn ? (
             <>
+            <Link href="/account">
               <button className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-[#806056] hover:scale-110 ease-in-out duration-500">
                 Yêu thích
                 <AiFillHeart className="w-6 h-6" />
               </button>
+            </Link>
               <Link href="/post">
                 <button className="inline-flex py-[10px] px-[25px] items-center gap-[10px] rounded-full  border-[1px] border-[#806056] border-opacity-50 text-[14px] font-medium text-white ml-[20px] bg-[#806056] hover:scale-110 ease-in-out duration-500">
                   Đăng tin
