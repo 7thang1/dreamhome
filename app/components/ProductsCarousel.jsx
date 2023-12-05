@@ -27,7 +27,7 @@ useEffect(() => {
 
   }, [currentPage]);
   return (
-    <div className=''>
+    <div className='mb-[30px]'>
       <p className='text-[#000] text-xl font-semibold mb-[30px] '>Bất động sản dành cho bạn</p>
       <div className='relative w-auto h-auto'>
 
@@ -39,8 +39,10 @@ useEffect(() => {
 
       >
         {properties.map((product) => (
-          <SwiperSlide key={product.id}>
+          <SwiperSlide >
             <Card
+              key={product.id}
+              id={product.id}
               image={product.image_url}
               name={product.name}
               location={product.district_name + ', ' + product.province_name}

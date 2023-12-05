@@ -1,37 +1,64 @@
-'use client'
-import { Input } from 'postcss';
 import React, { useState, useEffect } from 'react';
-import { FilePond, registerPlugin,  } from 'react-filepond';
-import 'filepond/dist/filepond.css';
-import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
-import FilePondPluginFileValidateSize from 'filepond-plugin-image-validate-size';
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import { uploadFileToS3 } from '../api/s3-upload/route';
+import { IoIosClose } from "react-icons/io";
 
-const UploadImage = ({ onUpload }) => {
-    registerPlugin(FilePondPluginImagePreview, FilePondPluginFileValidateSize, FilePondPluginFileEncode, FilePondPluginImageExifOrientation);
+const UploadImage = ({ onFileChange }) => {
   const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleUpdateFiles = (fileItems) => {
-    setFiles(fileItems.map((fileItem) => fileItem.file));
+  const handleFileChange = (e) => {
+    const selectedFiles = e.target.files;
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
   };
 
-  const handleUpload = () => {
-    // Bạn có thể xử lý logic upload ở đây hoặc chuyển các file đã chọn tới component cha
-    onUpload(files);
+  const handleRemoveImage = (index) => {
+    const updatedFiles = [...files];
+    updatedFiles.splice(index, 1);
+    setFiles(updatedFiles);
   };
+
+  const handleUploadImage = async () => {
+    try {
+      setLoading(true);
+
+      const uploadedFiles = await Promise.all(files.map(async (file) => {
+        const fileBuffer = await file.arrayBuffer();
+        const fileName = await uploadFileToS3(fileBuffer, file.name);
+        return {
+            // url:`https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_S3_REGION}.amazonaws.com/${fileName}`
+            url: `https://cdn.thedreamhome.click/${fileName}`
+          };
+      }));
+
+      console.log('Uploaded files:', uploadedFiles);
+      onFileChange(uploadedFiles);
+    } catch (error) {
+      console.error('Error uploading files:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    onFileChange(files);
+  }, [files]);
 
   return (
     <div>
-     <FilePond
-        files={files}
-        allowMultiple={true}
-        maxFiles={4}
-        maxFileSize="10MB"
-        server={{ process: null }}
-        onupdatefiles={handleUpdateFiles}
-      />
+      <input type="file" onChange={handleFileChange} multiple className='rounded-md' />
+
+      <div className='flex flex-wrap flex-row mt-5'>
+        {files.map((file, index) => (
+          <div key={index} className='relative mr-[10px] mb-[10px]'>
+            <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} className='w-[100px] h-[100px] rounded-md' />
+            <button onClick={() => handleRemoveImage(index)} className='absolute top-[5px] right-[5px] cursor-pointer'><IoIosClose /></button>
+          </div>
+        ))}
+      </div>
+
+      <button onClick={handleUploadImage} disabled={loading} className='mt-3 px-4 py-2 bg-black text-white rounded-md cursor-pointer'>
+        {loading ? 'Uploading...' : 'Upload'}
+      </button>
     </div>
   );
 };

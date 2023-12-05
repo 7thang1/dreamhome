@@ -33,7 +33,7 @@ function Footer() {
         <Typography className='capitalize text-white'>Dream Home</Typography>
         <Typography className='text-white text-[14px] font-medium leading-[21px] pt-[12px]'>Amet consectetur. Sed rutrum amet lacinia <br/> convallis tempor ut purus id.</Typography>
        <div className='w-[348px] h-[70px] shrink-0 rounded-[20px] border-solid border-[1px] border-[#fff] p-[25px] items-center flex mt-[18px]  justify-between'>
-        <input className='bg-transparent text-white focus:outline-none' placeholder='Enter your email' type='email'>   
+        <input className='bg-transparent text-white focus:outline-none border-none rounded-md' placeholder='Enter your email' type='email'>   
         </input>
         <button className='text-white py-[10px] px-[25px] flex items-center rounded-[50px] text-[14px] font-medium bg-[#806056] hover:bg-blue-gray-500  duration-500 '>
             Gửi

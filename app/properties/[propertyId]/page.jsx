@@ -6,17 +6,15 @@ import VerticalThumbnailSlider from '../../components/Thumbslider';
 import Link from 'next/link';
 import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai';
 import FilterBar from '../../components/FilterBar';
-import  {getPropertyDetail}  from '../../components/API';
+import  {getPropertyDetail, getUserinfo}  from '../../components/API';
+import  requireAuth from '../../requireAuth';
 function ProductDetails({params}) {
-  const [locationFilter, setLocationFilter] = useState('');
-    const [priceFilter, setPriceFilter] = useState('');
-    const [superficialityFilter, setSuperficialityFilter] = useState('');  
+
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const keywords = ['Quận 7', 'Thủ Đức', 'Quận 1', 'Tân Bình', 'Bình Thạnh', 'Bình Chánh', 'Phú Nhuận', 'Quận 9', 'Quận 10', 'Quận 11', 'Quận 8' , 'Quận 4'];
-  const phoneNumber = '0902090909';
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [property, setProperty] = useState(null);
-  
+  const [property, setProperty] = useState([]);
+  const [propertyStatus, setPropertyStatus] = useState('');
     const handleBookmarkClick = () => {
       setIsBookmarked(!isBookmarked);
     };
@@ -27,13 +25,10 @@ function ProductDetails({params}) {
     const convertPrice = (price) => {
       const hasTrailingZeros = price % 1000000 === 0;
       if (price >= 1000000000 && hasTrailingZeros) {
-        // Nếu giá lớn hơn hoặc bằng 1 tỷ và có chứa số 0 ở cuối, chuyển đổi sang tỷ
-        return `${(price / 1000000000).toFixed(2)} tỷ`;
+        return `${(price / 1000000000).toFixed(0)} tỷ`;
       } else if (price >= 1000000) {
-        // Nếu giá lớn hơn hoặc bằng 1 triệu, chuyển đổi sang triệu
-        return `${(price / 1000000).toFixed(2)} triệu`;
+        return `${(price / 1000000).toFixed(0)} triệu`;
       } else {
-        // Nếu giá nhỏ hơn 1 triệu, hiển thị theo đơn vị hiện tại
         return `${price} VNĐ`;
       }
     };
@@ -42,24 +37,67 @@ function ProductDetails({params}) {
       const year = dateTime.getFullYear();
       const month = String(dateTime.getMonth() + 1).padStart(2, '0');
       const day = String(dateTime.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+      return `${day}-${month}-${year}`;
     }
-  
-    const getMaskedPhoneNumber = () => {
-      const visiblePart = showPhoneNumber ? phoneNumber : phoneNumber.slice(0, -6).padEnd(10, '*');
-      return `${visiblePart.slice(0, 4)} ${visiblePart.slice(4, 7)} ${visiblePart.slice(7)}`;
-    };
+    const getStatusLabel = () => {
+      let label = '';
+      let bgColor = '';
+
+      switch (propertyStatus) {
+          case 'Đang cho thuê':
+              label = 'Đang cho thuê';
+              bgColor = 'bg-green-500';
+              break;
+          case 'Đã cho thuê':
+              label = 'Đã cho thuê';
+              bgColor = 'bg-red-500';
+              break;
+          case 'Đang bán':
+              label = 'Đang bán';
+              bgColor = 'bg-green-500';
+              break;
+          case 'Đã bán':
+              label = 'Đã bán';
+              bgColor = 'bg-red-500';
+              break;
+      }
+
+      return { label, bgColor };
+  };
+
+  const { label, bgColor } = getStatusLabel();
     useEffect(() => {
       const fetchData = async () => {
         const result = await getPropertyDetail(params.propertyId);
-        setProperty(result.elements[0]); 
-      };
+        setProperty(result.elements[0]);
+        setTimeout(() => {
+            if (result.elements[0].status == 'available')
+      {
+        if (result.elements[0].property_category == 'sell')
+        { 
+          setPropertyStatus('Đang bán');
+        }
+        else {
+          setPropertyStatus('Đang cho thuê');
+        }
+      }
+      else {
+        if (result.elements[0].property_category == 'sell')
+        { 
+          setPropertyStatus('Đã bán');
+        }
+        else {
+          setPropertyStatus('Đã cho thuê');
+        }
+      }
+        }, 2000);
     
-      fetchData();
-    }, []);
+      };
+fetchData()
+;}, [params.propertyId]);
   return (
     <div className='mt-10 '>
-    <Breadcrumbs  className='bg-white w-auto h-[21px] '>
+    <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[30px] '>
  <a href="/#" className="opacity-60 text-sm font-medium text-[#282E3C]">
    Trang chủ
  </a>
@@ -69,26 +107,26 @@ function ProductDetails({params}) {
  <a href="" className=' text-sm font-medium text-[#282E3C]'>Tìm kiếm</a>
  <a href="" className=' text-sm font-medium text-[#282E3C]'>{property?.property_name}</a>
 </Breadcrumbs>
-<FilterBar/>
+{/* <FilterBar/> */}
 
-<div className='flex  flex-wrap mb-20 '>
+<div className='flex  flex-wrap mb-[20px] '>
 <VerticalThumbnailSlider images={property?.image_urls || []}/>
  {/* Contact Div */}
 <div className='flex flex-col ml-[25px]'>
  <div className='w-[260px] h-[265px] flex flex-col items-center  border-[0.5px] border-solid border-[#D6D6D6] bg-[#fff] rounded-t-md  '>
    <div className='flex items-center justify-center w-[65px] h-[65px] mt-[30px] p-[3px] rounded-full bg-white border-[1px] border-[#BCACA7]'>
-     <Avatar className='w-[60px] h-[60px]' src='/avatar.jpg' alt='avatar'/>
+     <Avatar className='w-[60px] h-[60px]' src={property?.user_image || 'https://cdn.thedreamhome.click/default-avt.jpg'}  alt='avatar'/>
    </div>
    <span className='mt-[6px] text-[#848484] text-[13px] font-normal leading-[19.5px]'>Người đăng</span>
-   <span className='mt-[5px] text-[#000] text-base font-bold'>Cameron Williamson</span>
+   <span className='mt-[5px] text-[#000] text-base font-bold'>{property?.user_name}</span>
    <div className='w-[230px] h-[44px] rounded-md bg-[#ECE7E6] mt-[15px] mb-[14px] p-[15px] flex justify-between items-center'>
-   <span className='text-[#282E3C] text-[13px] font-normal '>{getMaskedPhoneNumber()}</span>
-       <a
+   <span className='text-[#282E3C] text-[13px] font-normal '>{property?.user_phone || 'Chưa cập nhật SĐT'}</span>
+       {/* <a
          className='text-[#806056] text-[13px] font-medium underline cursor-pointer'
          onClick={handleTogglePhoneNumber}
        >
          {showPhoneNumber ? 'Ẩn số' : 'Hiển thị số'}
-       </a>
+       </a> */}
    </div>
    <Link className='flex items-center text-[#6f737e]' href=''>
    <span className='text-sm font-medium mr-[7px]'>5 bài đăng khác</span>
@@ -100,10 +138,12 @@ function ProductDetails({params}) {
      <img src='/mail.jpg' alt='mail' className='w-6 h-6'/>
      <p>Liên hệ email</p>
    </button>
+   <Link href={`zalo.me/`}>
    <button className='w-[230px] flex px-[15px] py-3 justify-center items-center gap-[10px] text-sm font-normal text-[#806056] rounded-lg bg-transparent border-[1px] border-solid border-[#806056] mt-5'>
      <img src='/zalo.jpg' alt='zalo' className='w-6 h-6 '/>
      <p>Chat qua Zalo</p>
    </button>
+   </Link>
  </div>
  <div className='flex flex-col'>
    <span className='text-[#282E3C] text-sm font-normal'>Từ khóa:</span>
@@ -152,7 +192,7 @@ function ProductDetails({params}) {
          <div className=''>
          <div className='flex flex-col mb-[23px] '>
            <span className='text-[#727386] text-sm font-medium'>Mức giá</span>
-           <span className='text-[#806056] text-3xl font-bold'>{convertPrice(property.price)}VNĐ</span>
+           <span className='text-[#806056] text-3xl font-bold'>{convertPrice(property.price)} VNĐ</span>
          </div>
          <div className='flex flex-col gap-[15px]'>
            <span className='text-[#727386] text-sm font-medium'>Mức độ an toàn</span>
@@ -182,7 +222,7 @@ function ProductDetails({params}) {
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Trạng thái</span>
-             <div className='flex px-[15px] py-[6px] bg-[#29DF7D] rounded-lg text-white  text-[13px] font-normal'>{property.status}</div>
+             <div className={`flex px-[15px] py-[6px] rounded-lg text-white  text-[13px] font-normal ${bgColor}`}>{label}</div>
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Ngày đăng </span>
@@ -191,14 +231,12 @@ function ProductDetails({params}) {
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Ngày hết hạn</span>
-             <span className='text-[#282E3C] text-[22px] font-semibold'>{property.expired_at}</span>
-
+             <span className='text-[#282E3C] text-[22px] font-semibold'>{convertDate(property.expired_at)}</span>
            </div>
-           <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
+           <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap'>
              <span className='text-[#727386] text-sm font-medium'>Loại tin</span>
              <div className='flex px-[15px] py-[6px] bg-[#F6F8FA] rounded-lg text-[#282E3C]  text-[13px] font-normal'>Tin thường</div>
            </div>
-
          </div>
      </div>
      {/* Info Section 3 */}
@@ -217,4 +255,4 @@ function ProductDetails({params}) {
   )
 }
 
-export default ProductDetails
+export default requireAuth(ProductDetails);

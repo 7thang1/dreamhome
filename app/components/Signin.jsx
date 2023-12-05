@@ -10,9 +10,9 @@ import {
     Checkbox,
   } from "@material-tailwind/react";
   import { IoIosClose } from "react-icons/io";
-import {login} from './API';
+import {login, getUserInfo} from './API';
 import Cookies from 'js-cookie';
-function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
+function Signin({ isLoggedIn, setIsSigninDialogOpen, openSignup }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -34,18 +34,20 @@ function Signin({ setIsLoggedIn, setIsSigninDialogOpen, openSignup }) {
     try {
       const data = await login(email, password);
       if (data.message === 'Login success'){
-        setIsLoggedIn(true);
+        Cookies.set('accessToken', data.elements.token, {expires: 1/24  })
         setIsSigninDialogOpen(false);
+        window.location.reload();
       }
-     
-    }
-    catch (err) {
-      if (err.response.data.message === 'User not found' || err.response.data.message === 'Wrong password'){
+       else if (data.message === 'User not found' || data.message === 'Wrong password'){
         alert('Email hoặc mật khẩu không đúng');
       }
       else {
         alert('Đã có lỗi xảy ra');
       }
+     
+    }
+    catch (err) {
+      console.log(err);
     }
   }
   };

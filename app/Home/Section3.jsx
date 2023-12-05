@@ -29,10 +29,13 @@ function Section3() {
   const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getListProperty(currentPage);
-      console.log(data);
-      setProperties(data.elements);
-      setTotalPages(Math.ceil(data.elements.length / 12));
+      const data = await getListProperty();
+      const startIndex = (currentPage - 1) * 12;
+  const endIndex = startIndex + 12;
+  const slicedData = data.elements.slice(startIndex, endIndex);
+
+  setProperties(slicedData);
+  setTotalPages(Math.ceil(data.elements.length / 12));
     }
     fetchData();
   }, [currentPage]);

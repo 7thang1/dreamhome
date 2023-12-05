@@ -16,9 +16,10 @@ function Section2() {
         <label className='font-semibold text-[15px] leading-[22.5px]'>Vị trí</label>
         <select className='bg-[#f0f0f0] w-[205px] h-[34px] text-[14px] font-normal leading-[21px] text-[#7d7d7d] appearance-none px-[10px] py-[7px]' value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)}>
         <option value="">Nơi bạn muốn sống</option>
-          <option value="location1">Location 1</option>
-          <option value="location2">Location 2</option>
-          <option value="location3">Location 3</option>
+          <option value="Hà Nội">Hà Nội</option>
+          <option value="Đà Nẵng">Đà Nẵng</option>
+          <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+          <option value="Bình Dương">Bình Dương</option>
         </select>
       </div>
       <div className='w-[1px] h-[65px] bg-black'></div>
