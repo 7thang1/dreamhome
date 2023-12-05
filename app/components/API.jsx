@@ -86,10 +86,11 @@ export async function updatePassword(password){
     return null;
   }
 };
-export async function getListProperty(pageNumber){
-  const url = `${baseurl}/property/getlistproperty?pageNumber=${pageNumber}`;
+export async function getListProperty(){
+  const url = `${baseurl}/property/getlistproperty`;
 try {
   const response = await axios.get(url);
+  localStorage.setItem('listProperty', JSON.stringify(response.elements));
   return response.data;
 } catch (error) {
   console.log(error);
@@ -222,7 +223,7 @@ export async function removeBookmark(propertyId) {
   }
 };
 export async function getBookmarkslist(){
-  const url = `${baseurl}/property/getuserinterest`;
+  const url = `${baseurl}/property/getlistuserinterest`;
   try {
     const response = await axios.get(url, {
       headers:{
@@ -235,8 +236,8 @@ export async function getBookmarkslist(){
     return null;
   }
 }
-export async function getPropertiesbyCategory(category, pageNumber){
-  const url = `${baseurl}/property/getlistpropertybycategory/${category}?pageNumber=${pageNumber}`;
+export async function getPropertiesbyCategory(category){
+  const url = `${baseurl}/property/getlistpropertybycategory/${category}`;
   try {
     const response = await axios.get(url);
     return response.data;

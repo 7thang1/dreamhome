@@ -129,7 +129,7 @@ function Selling() {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getPropertiesbyCategory('sell',currentPage);
+      const data = await getPropertiesbyCategory('sell');
       console.log(data);
       let sortedProperties = [...data.elements];
       if (sortByPrice === 'lowToHigh') {
@@ -187,7 +187,7 @@ function Selling() {
           <div className="flex flex-col gap-y-10">
             {properties.map((property) => (
                 <HorizontalCard
-                key={property.id}
+                key={property.property_id}
                 image={property.image_url}
                 name={property.property_name}
                 location={`${property.address}, ${property.district_name}, ${property.province_name}`}
@@ -196,6 +196,11 @@ function Selling() {
                 bedroom={property.bedroom}
                 bathroom={property.bathroom}
                 status={property.status}
+                id={property.property_id}
+                constructionYear={property.construction_year}
+                parkingSlot={property.parking_slot}
+                createdAt={property.created_at}
+                expiredAt={property.expired_at}
                 
                 />
             ))}

@@ -27,7 +27,7 @@ useEffect(() => {
 
   }, [currentPage]);
   return (
-    <div className=''>
+    <div className='mb-[30px]'>
       <p className='text-[#000] text-xl font-semibold mb-[30px] '>Bất động sản dành cho bạn</p>
       <div className='relative w-auto h-auto'>
 

@@ -25,7 +25,8 @@ const UploadImage = ({ onFileChange }) => {
         const fileBuffer = await file.arrayBuffer();
         const fileName = await uploadFileToS3(fileBuffer, file.name);
         return {
-            url:`https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_S3_REGION}.amazonaws.com/${fileName}`
+            // url:`https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_S3_REGION}.amazonaws.com/${fileName}`
+            url: `https://cdn.thedreamhome.click/${fileName}`
           };
       }));
 

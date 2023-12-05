@@ -6,6 +6,13 @@ function ProductCardHorizontal(props) {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [userBookmarks, setUserBookmarks] = useState([]); 
     const [isSelling, setIsSelling] = useState(props.status === 'selling' ? true : false);
+    const RemainDate = (date) => {
+      const currentDate = new Date();
+      const expiredDate = new Date(props.expiredAt);
+      const dueDate = expiredDate.getTime() - currentDate.getTime();
+      const remainDate = Math.ceil(dueDate / (1000 * 3600 * 24));   
+      return remainDate;
+    };
     const convertPrice = (price) => {
         const hasTrailingZeros = price % 1000000 === 0;
         if (price >= 1000000000 && hasTrailingZeros) {
@@ -52,7 +59,6 @@ function ProductCardHorizontal(props) {
                 label = 'Đã bán';
                 bgColor = 'bg-red-500';
                 break;
-         
         }
 
         return { label, bgColor };
@@ -73,10 +79,11 @@ function ProductCardHorizontal(props) {
         };
         fetchBookmarks();
       }, [props.id]);
+
   return (
-    <Link href='#' scroll={false}>
+    <Link href={`/properties/${props.id}`} scroll={false}>
     <div key={props.id} className='max-w-[1000px] rounded-lg flex flex-row gap-x-[30px] bg-[#f8f8f8]'>
-        <div className ='max-w-[300px] max-h-[273px] relative' >
+        <div className ='max-w-[300px] max-h-[226px] relative' >
             <img src={props.image} alt='HouseImage' className='w-full h-full rounded-lg' ></img>
             <button
         className='w-[30px] h-[30px] absolute right-0 top-0 mt-[10px] mr-[10px] rounded-md cursor-pointer flex justify-center items-center bg-[#8c8c8c] opacity-50  ' onClick={handleBookmarkClick}>
@@ -108,19 +115,18 @@ function ProductCardHorizontal(props) {
                 </div>
                 <div className='max-w-[100px] flex flex-col'>
                     <span className='text-[#727386] text-sm font-medium'>Năm xây dựng</span>
-                    <span className='text-[#282E3C] text-[22px] font-semibold'>2017</span>
+                    <span className='text-[#282E3C] text-[22px] font-semibold'>{props.constructionYear}</span>
                 </div>
                 <div className='max-w-[100px] flex flex-col'>
                     <span className='text-[#727386] text-sm font-medium'>Bãi đỗ xe</span>
-                    <span className='text-[#282E3C] text-[22px] font-semibold'>1</span>
+                    <span className='text-[#282E3C] text-[22px] font-semibold'>{props.parkingSlot}</span>
                 </div>
                 
             </div>
             <hr/>
             <div className='mt-[10px] flex justify-between'>
-                <span className='text-[#6F737E] text-[13px] font-normal'>Ngày đăng: 27-10-2023</span>
-                <span className='text-[#6F737E] text-[13px] font-normal'>Còn lại 30 ngày</span>
-
+                <span className='text-[#6F737E] text-[13px] font-normal'>{`Ngày đăng: ${props.createdAt}`}</span>
+                <span className='text-[#6F737E] text-[13px] font-normal'>{`Còn lại ${RemainDate(props.expiredAt)} Ngày`}</span>
             </div>
 
         </div>

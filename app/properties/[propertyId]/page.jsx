@@ -9,13 +9,12 @@ import FilterBar from '../../components/FilterBar';
 import  {getPropertyDetail, getUserinfo}  from '../../components/API';
 import  requireAuth from '../../requireAuth';
 function ProductDetails({params}) {
-  const [locationFilter, setLocationFilter] = useState('');
-    const [priceFilter, setPriceFilter] = useState('');
-    const [superficialityFilter, setSuperficialityFilter] = useState('');  
+
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const keywords = ['Quận 7', 'Thủ Đức', 'Quận 1', 'Tân Bình', 'Bình Thạnh', 'Bình Chánh', 'Phú Nhuận', 'Quận 9', 'Quận 10', 'Quận 11', 'Quận 8' , 'Quận 4'];
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [property, setProperty] = useState(null);
+  const [propertyStatus, setPropertyStatus] = useState('');
     const handleBookmarkClick = () => {
       setIsBookmarked(!isBookmarked);
     };
@@ -33,36 +32,69 @@ function ProductDetails({params}) {
         return `${price} VNĐ`;
       }
     };
-    const convertStatus = (status) => {
-      if (status === 'available')
-      {
-        return 'Đang bán';
-      }
-      else if (status === 'sold')
-      {
-        return 'Đã bán';
-      }
-    }
     const convertDate = (date) => {
       const dateTime = new Date(date);
       const year = dateTime.getFullYear();
       const month = String(dateTime.getMonth() + 1).padStart(2, '0');
       const day = String(dateTime.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+      return `${day}-${month}-${year}`;
     }
+    const getStatusLabel = () => {
+      let label = '';
+      let bgColor = '';
+
+      switch (propertyStatus) {
+          case 'Đang cho thuê':
+              label = 'Đang cho thuê';
+              bgColor = 'bg-green-500';
+              break;
+          case 'Đã cho thuê':
+              label = 'Đã cho thuê';
+              bgColor = 'bg-red-500';
+              break;
+          case 'Đang bán':
+              label = 'Đang bán';
+              bgColor = 'bg-green-500';
+              break;
+          case 'Đã bán':
+              label = 'Đã bán';
+              bgColor = 'bg-red-500';
+              break;
+      }
+
+      return { label, bgColor };
+  };
+
+  const { label, bgColor } = getStatusLabel();
     useEffect(() => {
       const fetchData = async () => {
         const result = await getPropertyDetail(params.propertyId);
         setProperty(result.elements[0]); 
-
+      if (setProperty.status == 'available')
+      {
+        if (setProperty.property_category == 'sell')
+        { 
+          setPropertyStatus('Đang bán');
+        }
+        else {
+          setPropertyStatus('Đang cho thuê');
+        }
+      }
+      else {
+        if (setProperty.property_category == 'sell')
+        { 
+          setPropertyStatus('Đã bán');
+        }
+        else {
+          setPropertyStatus('Đã cho thuê');
+        }
+      }
       };
-    
 
-      fetchData();
-    }, []);
+      fetchData();},[]);
   return (
     <div className='mt-10 '>
-    <Breadcrumbs  className='bg-white w-auto h-[21px] '>
+    <Breadcrumbs  className='bg-white w-auto h-[21px] mb-[30px] '>
  <a href="/#" className="opacity-60 text-sm font-medium text-[#282E3C]">
    Trang chủ
  </a>
@@ -72,9 +104,9 @@ function ProductDetails({params}) {
  <a href="" className=' text-sm font-medium text-[#282E3C]'>Tìm kiếm</a>
  <a href="" className=' text-sm font-medium text-[#282E3C]'>{property?.property_name}</a>
 </Breadcrumbs>
-<FilterBar/>
+{/* <FilterBar/> */}
 
-<div className='flex  flex-wrap mb-20 '>
+<div className='flex  flex-wrap mb-[20px] '>
 <VerticalThumbnailSlider images={property?.image_urls || []}/>
  {/* Contact Div */}
 <div className='flex flex-col ml-[25px]'>
@@ -187,7 +219,7 @@ function ProductDetails({params}) {
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Trạng thái</span>
-             <div className='flex px-[15px] py-[6px] bg-[#29DF7D] rounded-lg text-white  text-[13px] font-normal'>{convertStatus(property.status)}</div>
+             <div className={`flex px-[15px] py-[6px] rounded-lg text-white  text-[13px] font-normal ${bgColor}`}>{label}</div>
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Ngày đăng </span>
@@ -196,14 +228,12 @@ function ProductDetails({params}) {
            </div>
            <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
              <span className='text-[#727386] text-sm font-medium'>Ngày hết hạn</span>
-             <span className='text-[#282E3C] text-[22px] font-semibold'>{property.expired_at}</span>
-
+             <span className='text-[#282E3C] text-[22px] font-semibold'>{convertDate(property.expired_at)}</span>
            </div>
-           <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap '>
+           <div className='flex flex-col max-w-[100px] flex-wrap whitespace-nowrap'>
              <span className='text-[#727386] text-sm font-medium'>Loại tin</span>
              <div className='flex px-[15px] py-[6px] bg-[#F6F8FA] rounded-lg text-[#282E3C]  text-[13px] font-normal'>Tin thường</div>
            </div>
-
          </div>
      </div>
      {/* Info Section 3 */}
