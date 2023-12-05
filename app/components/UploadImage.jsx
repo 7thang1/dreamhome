@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { uploadFileToS3 } from '../api/s3-upload/route';
+import uploadFileToS3  from '../api/s3-upload/util';
 import { IoIosClose } from "react-icons/io";
 
 const UploadImage = ({ onFileChange }) => {
