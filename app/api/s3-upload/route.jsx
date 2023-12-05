@@ -31,28 +31,55 @@ export async function uploadFileToS3(file, fileName) {
   return params.Key; 
 }
 
-export async function POST(request) {
-  try {
-    const formData = await request.formData();
-    const files = formData.getAll("file");
+// export async function PUT(request) {
+//   try {
+//     const formData = await request.formData();
+//     const files = formData.getAll("file");
 
-    if (files.length === 0) {
-      return NextResponse.json({ error: "No File Uploaded" }, { status: 400 });
+//     if (files.length === 0) {
+//       return NextResponse.json({ error: "No File Uploaded" }, { status: 400 });
+//     }
+
+//     const uploadedFiles = [];
+
+//     for (const file of files) {
+//       const buffer = Buffer.from(await file.arrayBuffer());
+//       const fileName = await uploadFileToS3(buffer, file.name);
+//       uploadedFiles.push(fileName);
+//     }
+
+//     return NextResponse.json({ success: true, files: uploadedFiles });
+
+//   } catch (error) {
+//     console.error("Error uploading files:", error);
+
+//     return NextResponse.json({ error: "Error Uploading Files" });
+//   }
+// }
+export default async function handler(req, res) {
+  if (req.method === "POST") {
+    try {
+      const formData = await req.formData();
+      const files = formData.getAll("file");
+
+      if (files.length === 0) {
+        return NextResponse.json({ error: "No File Uploaded" }, { status: 400 });
+      }
+
+      const uploadedFiles = [];
+
+      for (const file of files) {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const fileName = await uploadFileToS3(buffer, file.name);
+        uploadedFiles.push(fileName);
+      }
+
+      return NextResponse.json({ success: true, files: uploadedFiles });
+    } catch (error) {
+      console.error("Error uploading files:", error);
+      return NextResponse.json({ error: "Error Uploading Files" });
     }
-
-    const uploadedFiles = [];
-
-    for (const file of files) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const fileName = await uploadFileToS3(buffer, file.name);
-      uploadedFiles.push(fileName);
-    }
-
-    return NextResponse.json({ success: true, files: uploadedFiles });
-
-  } catch (error) {
-    console.error("Error uploading files:", error);
-
-    return NextResponse.json({ error: "Error Uploading Files" });
+  } else {
+    return NextResponse.error("Method Not Allowed", { status: 405 });
   }
 }
